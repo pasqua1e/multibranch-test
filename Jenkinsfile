@@ -12,8 +12,8 @@ pipeline {
     }
     environment {
         PRISMAAUTH = credentials('prisma-cloud-accesskey')
-        PC_CONSOLE = 'https://europe-west3.cloud.twistlock.com/eu-2-143568833'
-        //AppStack = 'https://api2.eu.prismacloud.io'
+        PC_CONSOLE = 'https://console-master-pasq3.prussiello.demo.twistlock.com'
+        //AppStack = 'https://api.prismacloud.io'
     }
     stages {
         stage('Clone repository') {
