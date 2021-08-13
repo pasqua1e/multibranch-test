@@ -1,10 +1,10 @@
 pipeline {
     agent {
         node {
-            label 'LinuxGeneric'
+            //label 'LinuxGeneric'
             //Files to scan with types included
             //files= [['AWS_S3_VersioningConfiguration.json','CFT'],[ 'main.tf','tf012'],['sockshop.yaml','k8s']]
-               //files= [[ 'main.tf','variables.tfvars','variables.tf']]
+               files= [ 'main.tf','variables.tfvars','variables.tf']
                    //withCredentials([usernamePassword(credentialsId: 'prisma-cloud-accesskey', passwordVariable: 'PC_PASS', usernameVariable: 'PC_USER')]) {
                 //PC_TOKEN = sh(script:"curl -s -k -H 'Content-Type: application/json' -H 'accept: application/json' --data '{\"username\":\"$PC_USER\", \"password\":\"$PC_PASS\"}' https://${AppStack}/login | jq --raw-output .token", returnStdout:true).trim()
                 //}
