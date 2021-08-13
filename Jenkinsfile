@@ -11,7 +11,7 @@ pipeline {
             }
     }
     environment {
-        PRISMAAUTH = credentials('prisma-cloud-accesskey')
+        PRISMAAUTH = credentials('prisma_cloud')
         PC_CONSOLE = 'https://console-master-pasq3.prussiello.demo.twistlock.com'
         //AppStack = 'https://api.prismacloud.io'
     }
@@ -25,7 +25,7 @@ pipeline {
         //$PC_USER,$PC_PASS,$PC_CONSOLE
         stage('Download latest twistcli') {
             steps {
-            withCredentials([usernamePassword(credentialsId: 'prisma-cloud-accesskey', passwordVariable: 'PC_PASS', usernameVariable: 'PC_USER')]) {
+            withCredentials([usernamePassword(credentialsId: 'prisma_cloud', passwordVariable: 'PC_PASS', usernameVariable: 'PC_USER')]) {
                 sh 'curl -k -u $PC_USER:$PC_PASS --output ./twistcli https://$PC_CONSOLE/api/v1/util/twistcli'
                 sh 'sudo chmod a+x ./twistcli'
             }
@@ -33,9 +33,9 @@ pipeline {
         }
         stage ('get files'){
             steps {
-                withCredentials([usernamePassword(credentialsId: 'prisma-cloud-accesskey', passwordVariable: 'PC_PASS', usernameVariable: 'PC_USER')]) {
+                withCredentials([usernamePassword(credentialsId: 'prisma_cloud', passwordVariable: 'PC_PASS', usernameVariable: 'PC_USER')]) {
                     //files = [[ 'main.tf','variables.tfvars','variables.tf']]
-                    PC_TOKEN = sh(script:"curl -s -k -H 'Content-Type: application/json' -H 'accept: application/json' --data '{\"username\":\"$PC_USER\", \"password\":\"$PC_PASS\"}' https://api2.eu.prismacloud.io/login | jq --raw-output .token", returnStdout:true).trim()
+                    PC_TOKEN = sh(script:"curl -s -k -H 'Content-Type: application/json' -H 'accept: application/json' --data '{\"username\":\"$PC_USER\", \"password\":\"$PC_PASS\"}' https://api.prismacloud.io/login | jq --raw-output .token", returnStdout:true).trim()
                 }
             }
         }
