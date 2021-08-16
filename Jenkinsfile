@@ -13,7 +13,7 @@ pipeline {
     }
     environment {
         PRISMAAUTH = credentials('prisma_cloud')
-        PC_CONSOLE = 'https://console-master-pasq3.prussiello.demo.twistlock.com'
+        PC_CONSOLE = 'console-master-pasq3.prussiello.demo.twistlock.com'
         //AppStack = 'https://api.prismacloud.io'
         
     }
