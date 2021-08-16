@@ -1,3 +1,4 @@
+def files = [ 'main.tf','variables.tfvars','variables.tf']
 pipeline {
     agent {
         node {
@@ -20,7 +21,7 @@ pipeline {
     stages {
         stage('Clone repository') {
             steps {
-                files = [ 'main.tf','variables.tfvars','variables.tf']
+                
                 checkout scm
             }
         }
