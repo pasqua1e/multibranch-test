@@ -35,7 +35,7 @@ pipeline {
         }
         stage ('get files'){
             steps {
-                //files = [ 'main.tf','variables.tfvars','variables.tf']
+                
                 withCredentials([usernamePassword(credentialsId: 'prisma_cloud', passwordVariable: 'PC_PASS', usernameVariable: 'PC_USER')]) {
                         script {
                     PC_TOKEN = sh(script:"curl -k -H 'Content-Type: application/json' -H 'accept: application/json' --data '{\"username\":\"$PC_USER\", \"password\":\"$PC_PASS\"}' https://api.prismacloud.io/login | jq --raw-output .token", returnStdout:true).trim()
@@ -43,20 +43,20 @@ pipeline {
                 }
             }
         }
-
-//         files.each { item ->
-//             stage("Scan IaC file ${item[0]} with twistcli") {
-//                 steps {
-//                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-//                     withCredentials([usernamePassword(credentialsId: 'prisma-cloud-accesskey', passwordVariable: 'PC_PASS', usernameVariable: 'PC_USER')]) {
-//                         sh "./twistcli iac scan -u $PC_USER -p $PC_PASS --asset-name Jenkins-IaC --tags env:jenkins  --address https://$PC_CONSOLE --type ${item[2]} example/${item[0]}"
-//                         //sh "./twistcli iac scan -u $PC_USER -p $PC_PASS --asset-name Jenkins-IaC --tags env:jenkins --compliance-threshold high --address https://$PC_CONSOLE --type ${item[2]} files/${item[0]}"
-//                         //sh "./twistcli iac scan --u $PC_USER --p $PC_PASS --compliance-threshold high --address https://$PC_CONSOLE files/${item}"
-//                     }
-//                 }
-//                 }
-//             }
-//         }
+        files = [ 'main.tf','variables.tfvars','variables.tf']
+        files.each { item ->
+            stage("Scan IaC file ${item[0]} with twistcli") {
+                steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    withCredentials([usernamePassword(credentialsId: 'prisma-cloud-accesskey', passwordVariable: 'PC_PASS', usernameVariable: 'PC_USER')]) {
+                        sh "./twistcli iac scan -u $PC_USER -p $PC_PASS --asset-name Jenkins-IaC --tags env:jenkins  --address https://$PC_CONSOLE --type ${item[2]} example/${item[0]}"
+                        //sh "./twistcli iac scan -u $PC_USER -p $PC_PASS --asset-name Jenkins-IaC --tags env:jenkins --compliance-threshold high --address https://$PC_CONSOLE --type ${item[2]} files/${item[0]}"
+                        //sh "./twistcli iac scan --u $PC_USER --p $PC_PASS --compliance-threshold high --address https://$PC_CONSOLE files/${item}"
+                    }
+                }
+                }
+            }
+        }
 
 //         //files.each { item ->
 //            stage("Scan with Rest API v2 - ${item[2]}") {
