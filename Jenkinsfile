@@ -2,6 +2,7 @@ pipeline {
     agent {
         node {
             label 'pasq'
+            files= [ 'main.tf','variables.tfvars','variables.tf']
             //Files to scan with types included
             //files= [['AWS_S3_VersioningConfiguration.json','CFT'],[ 'main.tf','tf012'],['sockshop.yaml','k8s']]
                
@@ -14,7 +15,7 @@ pipeline {
         PRISMAAUTH = credentials('prisma_cloud')
         PC_CONSOLE = 'https://console-master-pasq3.prussiello.demo.twistlock.com'
         //AppStack = 'https://api.prismacloud.io'
-        files= [ 'main.tf','variables.tfvars','variables.tf']
+        
     }
     stages {
         stage('Clone repository') {
