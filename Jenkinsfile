@@ -46,16 +46,18 @@ pipeline {
             }
         }
         
-        files.each { item ->
-            stage("Scan IaC file ${item[0]} with twistcli") {
-                steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    withCredentials([usernamePassword(credentialsId: 'prisma-cloud-accesskey', passwordVariable: 'PC_PASS', usernameVariable: 'PC_USER')]) {
-                        sh "./twistcli iac scan -u $PC_USER -p $PC_PASS --asset-name Jenkins-IaC --tags env:jenkins  --address https://$PC_CONSOLE --type ${item[2]} example/${item[0]}"
-                        //sh "./twistcli iac scan -u $PC_USER -p $PC_PASS --asset-name Jenkins-IaC --tags env:jenkins --compliance-threshold high --address https://$PC_CONSOLE --type ${item[2]} files/${item[0]}"
-                        //sh "./twistcli iac scan --u $PC_USER --p $PC_PASS --compliance-threshold high --address https://$PC_CONSOLE files/${item}"
+        script { 
+            files.each(item) { 
+                stage("Scan IaC file ${item[0]} with twistcli") {
+                    steps {
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                            withCredentials([usernamePassword(credentialsId: 'prisma-cloud-accesskey', passwordVariable: 'PC_PASS', usernameVariable: 'PC_USER')]) {
+                                sh "./twistcli iac scan -u $PC_USER -p $PC_PASS --asset-name Jenkins-IaC --tags env:jenkins  --address https://$PC_CONSOLE --type ${item[2]} example/${item[0]}"
+                                //sh "./twistcli iac scan -u $PC_USER -p $PC_PASS --asset-name Jenkins-IaC --tags env:jenkins --compliance-threshold high --address https://$PC_CONSOLE --type ${item[2]} files/${item[0]}"
+                                //sh "./twistcli iac scan --u $PC_USER --p $PC_PASS --compliance-threshold high --address https://$PC_CONSOLE files/${item}"
+                            }
+                        }
                     }
-                }
                 }
             }
         }
