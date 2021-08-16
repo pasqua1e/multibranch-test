@@ -2,7 +2,7 @@ pipeline {
     agent {
         node {
             label 'pasq'
-            files= [ 'main.tf','variables.tfvars','variables.tf']
+            
             //Files to scan with types included
             //files= [['AWS_S3_VersioningConfiguration.json','CFT'],[ 'main.tf','tf012'],['sockshop.yaml','k8s']]
                
