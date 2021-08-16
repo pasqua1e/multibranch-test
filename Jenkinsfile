@@ -20,6 +20,7 @@ pipeline {
     stages {
         stage('Clone repository') {
             steps {
+                files = [ 'main.tf','variables.tfvars','variables.tf']
                 checkout scm
             }
         }
@@ -43,7 +44,7 @@ pipeline {
                 }
             }
         }
-        files = [ 'main.tf','variables.tfvars','variables.tf']
+        
         files.each { item ->
             stage("Scan IaC file ${item[0]} with twistcli") {
                 steps {
